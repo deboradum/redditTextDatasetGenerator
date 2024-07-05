@@ -4,7 +4,7 @@ model: "/Users/personal/Desktop/SouthParkDataset/meta-llama/Meta-Llama-3-8B-Inst
 train: true
 
 # Directory with {train, valid, test}.jsonl files
-data: "conspiracySubmissionData"
+data: "conspiracySubmissionsData"
 
 # The PRNG seed
 seed: 0
@@ -14,19 +14,19 @@ seed: 0
 lora_layers: 32
 
 # Minibatch size.
-batch_size: 4
+batch_size: 2
 
 # Iterations to train for.
 iters: 6000
 
 # Number of validation batches, -1 uses the entire validation set.
-val_batches: 500
+val_batches: 100
 
 # Adam learning rate.
 learning_rate: 1e-6
 
 # Number of training steps between loss reporting.
-steps_per_report: 100
+steps_per_report: 10
 
 # Number of training steps between validations.
 steps_per_eval: 100
