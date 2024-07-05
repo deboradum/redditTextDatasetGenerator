@@ -4,4 +4,7 @@ logs
 
 .DS_Store
 
+*.safetensors
 *.jsonl
+
+adapters/adapter_config.json
