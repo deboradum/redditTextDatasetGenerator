@@ -14,7 +14,7 @@ seed: 0
 lora_layers: 32
 
 # Minibatch size.
-batch_size: 2
+batch_size: 1
 
 # Iterations to train for.
 iters: 6000
