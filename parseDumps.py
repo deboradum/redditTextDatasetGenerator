@@ -26,7 +26,7 @@ def generate_prompt(title, body):
 
 
 def is_url(text):
-    return text.startswith("http")
+    return "http" in text
 
 
 def is_removed(text):
@@ -51,9 +51,9 @@ def parse_submissions(filepath):
         csv_reader = csv.reader(f, delimiter=",")
         i = 0
         for row in csv_reader:
+            title = row[Submission.title]
             body = row[Submission.body]
-            if not is_url(body) and not is_removed(body):
-                title = row[Submission.title]
+            if not is_url(body) and not is_url(body) and not is_removed(body):
                 write_to_file(title, body)
                 i += 1
                 if i % 10000 == 0:
@@ -61,7 +61,7 @@ def parse_submissions(filepath):
 
 
 if __name__ == "__main__":
-    filepath = "dumpsParsed/conspiracy_comments.csv"
+    filepath = "dumpsParsed/conspiracy_submissions.csv"
     if not os.path.isdir(OUTPUT_PATH):
         os.mkdir(OUTPUT_PATH)
 
