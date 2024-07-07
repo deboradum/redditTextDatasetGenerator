@@ -26,11 +26,19 @@ def generate_prompt(title, body):
 
 
 def is_url(text):
-    return "http" in text
+    return "http" in text or "www." in text
 
 
 def is_removed(text):
     return text == "[removed]" or text == "[deleted]" or text.strip() == ""
+
+
+def is_reddit_redirect(text):
+    return "/r/" in text or "r/" in text
+
+
+def too_short(text):
+    return len(text) < 30
 
 
 def write_to_file(title, body):
@@ -53,7 +61,12 @@ def parse_submissions(filepath):
         for row in csv_reader:
             title = row[Submission.title]
             body = row[Submission.body]
-            if not is_url(body) and not is_url(body) and not is_removed(body):
+            if (
+                not is_url(body)
+                and not is_removed(body)
+                and not is_reddit_redirect(body)
+                and not too_short(body)
+            ):
                 write_to_file(title, body)
                 i += 1
                 if i % 10000 == 0:
