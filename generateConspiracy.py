@@ -37,7 +37,7 @@ class ConspiracyGenerator:
         self.script = []
         self.filepath = filepath
 
-    def generate_theory(self, conspiracy_title, max_tokens=100, temp=0.3):
+    def generate_theory(self, conspiracy_title, max_tokens=500, temp=0.3):
         response = generate(
             self.model,
             self.tokenizer,
@@ -45,11 +45,11 @@ class ConspiracyGenerator:
             max_tokens,
             verbose=True,
             temp=temp,
-            # repetition_penalty=1.5,
-            # repetition_context_size=200,
+            repetition_penalty=1.2,
+            repetition_context_size=100,
         )
         filtered_response = filter_non_standard_characters(response)
-        theory_dict = response_to_dict(filtered_response)
+        theory_dict = response_to_dict(conspiracy_title, filtered_response)
         if theory_dict:
             self.script.append(theory_dict)
             self.write_theory_to_file(theory_dict)
@@ -74,4 +74,5 @@ if __name__ == "__main__":
         "theories.jsonl",
     )
     title = "Michael Jackson is not the only one doing weird things with children in his theme park"
-    generator.generate_theory(title)
+    for _ in range(5):
+        generator.generate_theory(title)
