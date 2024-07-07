@@ -74,6 +74,5 @@ if __name__ == "__main__":
         "adapters",
         "theories.jsonl",
     )
-    title = "Michael Jackson is not the only one doing weird things with children in his theme park"
-    for _ in range(5):
-        generator.generate_theory(title)
+    title = "The matrix is real, the elites are keeping us there and we need to escape"
+    generator.generate_theory(title, 5)

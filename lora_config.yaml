@@ -17,13 +17,13 @@ lora_layers: 32
 batch_size: 1
 
 # Iterations to train for.
-iters: 6000
+iters: 1000
 
 # Number of validation batches, -1 uses the entire validation set.
 val_batches: 100
 
 # Adam learning rate.
-learning_rate: 1e-6
+learning_rate: 1e-7
 
 # Number of training steps between loss reporting.
 steps_per_report: 10

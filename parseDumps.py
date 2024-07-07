@@ -78,5 +78,6 @@ if __name__ == "__main__":
     if not os.path.isdir(OUTPUT_PATH):
         os.mkdir(OUTPUT_PATH)
 
+    # Currently only submissions are supported
     if "submissions" in filepath:
         parse_submissions(filepath)
