@@ -37,28 +37,29 @@ class ConspiracyGenerator:
         self.script = []
         self.filepath = filepath
 
-    def generate_theory(self, conspiracy_title, max_tokens=500, temp=0.3):
-        response = generate(
-            self.model,
-            self.tokenizer,
-            generate_prompt(conspiracy_title),
-            max_tokens,
-            verbose=True,
-            temp=temp,
-            repetition_penalty=1.2,
-            repetition_context_size=100,
-        )
-        filtered_response = filter_non_standard_characters(response)
-        theory_dict = response_to_dict(conspiracy_title, filtered_response)
-        if theory_dict:
-            self.script.append(theory_dict)
-            self.write_theory_to_file(theory_dict)
-        else:
-            print(
-                "Error: Could not convert the following response to a theory_dict object:"
+    def generate_theory(self, conspiracy_title, num_theories, max_tokens=500, temp=0.3):
+        for _ in range(num_theories):
+            response = generate(
+                self.model,
+                self.tokenizer,
+                generate_prompt(conspiracy_title),
+                max_tokens,
+                verbose=True,
+                temp=temp,
+                repetition_penalty=1.2,
+                repetition_context_size=100,
             )
-            print("---------")
-            print(filtered_response)
+            filtered_response = filter_non_standard_characters(response)
+            theory_dict = response_to_dict(conspiracy_title, filtered_response)
+            if theory_dict:
+                self.script.append(theory_dict)
+                self.write_theory_to_file(theory_dict)
+            else:
+                print(
+                    "Error: Could not convert the following response to a theory_dict object:"
+                )
+                print("---------")
+                print(filtered_response)
 
     # theory = {"title": <title>, "body": <body>}
     def write_theory_to_file(self, theory):
