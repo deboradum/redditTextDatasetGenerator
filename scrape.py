@@ -1,3 +1,5 @@
+# https://academictorrents.com/details/1614740ac8c94505e4ecb9d88be8bed7b6afddd4/tech&filelist=1
+
 import zstandard
 import os
 import json
@@ -7,10 +9,10 @@ from datetime import datetime
 import logging.handlers
 
 # put the path to the input file, or a folder of files to process all of
-input_file = r"/Users/personal/Desktop/conspiracyLlama/dumps/"
+input_file = r"/Users/pepijnvanwijk/Documents/projects/conspiracyLlama/dumps/"
 # put the name or path to the output file. The file extension from below will be added automatically. If the input file is a folder, the output will be treated as a folder as well
 output_file = (
-    r"/Users/personal/Desktop/conspiracyLlama/dumpsParsed/"
+    r"/Users/pepijnvanwijk/Documents/projects/conspiracyLlama/dumpsParsed/"
 )
 # the format to output in, pick from the following options
 #   zst: same as the input, a zstandard compressed ndjson file. Can be read by the other scripts in the repo
