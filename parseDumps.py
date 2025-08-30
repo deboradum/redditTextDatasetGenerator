@@ -1,19 +1,14 @@
-# https://academictorrents.com/details/1614740ac8c94505e4ecb9d88be8bed7b6afddd4/tech&filelist=1
+# Adapted from somewhere online, can't find it anymore oops
 
 import zstandard
 import os
 import json
 import sys
 import csv
+import argparse
 from datetime import datetime
 import logging.handlers
 
-# put the path to the input file, or a folder of files to process all of
-input_file = r"/Users/pepijnvanwijk/Documents/projects/conspiracyLlama/dumps/"
-# put the name or path to the output file. The file extension from below will be added automatically. If the input file is a folder, the output will be treated as a folder as well
-output_file = (
-    r"/Users/pepijnvanwijk/Documents/projects/conspiracyLlama/dumpsParsed/"
-)
 # the format to output in, pick from the following options
 #   zst: same as the input, a zstandard compressed ndjson file. Can be read by the other scripts in the repo
 #   txt: an ndjson file, which is a text file with a separate json object on each line. Can be opened by any text editor
@@ -35,58 +30,10 @@ write_bad_lines = True
 from_date = datetime.strptime("2005-01-01", "%Y-%m-%d")
 to_date = datetime.strptime("2030-12-31", "%Y-%m-%d")
 
-# the field to filter on, the values to filter with and whether it should be an exact match
-# some examples:
-#
-# return only objects where the author is u/watchful1 or u/spez
-# field = "author"
-# values = ["watchful1","spez"]
-# exact_match = True
-#
-# return only objects where the title contains either "stonk" or "moon"
-# field = "title"
-# values = ["stonk","moon"]
-# exact_match = False
-#
-# return only objects where the body contains either "stonk" or "moon". For submissions the body is in the "selftext" field, for comments it's in the "body" field
-# field = "selftext"
-# values = ["stonk","moon"]
-# exact_match = False
-#
-#
-# filter a submission file and then get a file with all the comments only in those submissions. This is a multi step process
-# add your submission filters and set the output file name to something unique
-# input_file = "redditdev_submissions.zst"
-# output_file = "filtered_submissions"
-# output_format = "csv"
-# field = "author"
-# values = ["watchful1"]
-#
-# run the script, this will result in a file called "filtered_submissions.csv" that contains only submissions by u/watchful1
-# now we'll run the script again with the same input and filters, but set the output to single field. Be sure to change the output file to a new name, but don't change any of the other inputs
-# output_file = "submission_ids"
-# single_field = "id"
-#
-# run the script again, this will result in a file called "submission_ids.txt" that has an id on each line
-# now we'll remove all the other filters and update the script to input from the comments file, and use the submission ids list we created before. And change the output name again so we don't override anything
-# input_file = "redditdev_comments.zst"
-# output_file = "filtered_comments"
-# single_field = None  # resetting this back so it's not used
-# field = "link_id"  # in the comment object, this is the field that contains the submission id
-# values_file = "submission_ids.txt"
-# exact_match = False  # the link_id field has a prefix on it, so we can't do an exact match
-#
-# run the script one last time and now you have a file called "filtered_comments.csv" that only has comments from your submissions above
-# if you want only top level comments instead of all comments, you can set field to "parent_id" instead of "link_id"
-
-# change this to field = None if you don't want to filter by anything
 field = None
 values = ['']
-# if you have a long list of values, you can put them in a file and put the filename here. If set this overrides the value list above
-# if this list is very large, it could greatly slow down the process
 values_file = None
 exact_match = False
-
 
 # sets up logging to the console as well as a file
 log = logging.getLogger("bot")
@@ -250,6 +197,18 @@ def process_file(input_file, output_file, output_format, field, values, from_dat
 
 
 if __name__ == "__main__":
+	parser = argparse.ArgumentParser()
+	parser.add_argument("input", help="Path to input file or folder")
+	parser.add_argument("output", help="Path to output file or folder (extension added automatically)")
+	parser.add_argument("-f", "--format", choices=["zst", "txt", "csv"], default="csv", help="Output format")
+	args = parser.parse_args()
+
+	input_file = args.input
+	os.makedirs(input_file, exist_ok=True)
+	output_file = args.output
+	os.makedirs(output_file, exist_ok=True)
+	output_format = args.format
+
 	if single_field is not None:
 		log.info("Single field output mode, changing output file format to txt")
 		output_format = "txt"
