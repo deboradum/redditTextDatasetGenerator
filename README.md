@@ -1,6 +1,6 @@
 # Conspiracy generation
 
-1. Download the Reddit dump from [text](https://academictorrents.com/details/1614740ac8c94505e4ecb9d88be8bed7b6afddd4/tech&filelist=1). This torrent contains data from many subreddits, so you should pick only the subreddits you want.
+1. Download the Reddit dump [here](https://academictorrents.com/details/1614740ac8c94505e4ecb9d88be8bed7b6afddd4/tech&filelist=1). This torrent contains data from many subreddits, so you should pick only the subreddits you want.
 
 2. Run `python parseDumps.py <path/to/zst_dir> <path/to/output_dir>` to parse the .zst dump into a readable .csv format
 
